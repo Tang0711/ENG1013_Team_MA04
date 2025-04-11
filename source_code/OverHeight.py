@@ -1,11 +1,12 @@
+# This module implements the Approach Height Detection Subsystem
 # Created By : Looi_Yao_Ren(34471804)
 # Created Date: 28/03/2025 1649
 # version = '1.0'
 
-from Ultrasonic_sensor import ultrasonicSonar
+from Ultrasonic_sensor import read_ultrasonic
 import time
 
-def overHeight(boardInput,tL5,ultrasonic,tunnel_height,threshold):
+def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
     """
 
     Executes the Approach Height Detection Subsystem
@@ -48,7 +49,7 @@ def overHeight(boardInput,tL5,ultrasonic,tunnel_height,threshold):
             boardInput.digital_pin_write(tL5Green,0)
 
             while True:
-                distanceCM = ultrasonicSonar(boardInput,trigPin,echoPin)
+                distanceCM = read_ultrasonic(boardInput,trigPin,echoPin)
                 heightCM = tunnel_height - distanceCM
 
                 if heightCM > threshold and heightCM !=tunnel_height:

@@ -3,9 +3,8 @@
 # version = '1.0'
 
 from Ultrasonic_sensor import ultrasonicSonar
-import time
 
-def tunnelHeight(boardInput,tL3,ultrasonic,tunnel_height,threshold):
+def tunnel_height(boardInput,tL3,ultrasonic,tunnel_height,threshold):
     """
         Executes the Tunnel Height Detection Subsystem
 
