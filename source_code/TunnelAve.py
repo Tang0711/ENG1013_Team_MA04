@@ -1,86 +1,161 @@
-from pymata4 import pymata4
-from PushButton import pushButton
+# This module implements the Tunnel Avenue Control Subsystem
+# Created By : Looi_Yao_Ren(34471804)
+# Created Date: 28/03/2025 1649
+# version = '2.0'
+
+# Reviewed by : Tang Wei Zhi (11/04/2025)
+
 import time
 
-def tunnelAve(boardInput,tL4, pL1, bP1,bP2):
+# Constants for timing
+systemWaitTime = 2.0 # second
+yellowTLTime = 2.0  # seconds
+redFlashingTime = 5.0 # seconds
+greenPLTime = 3.0  # seconds
+flashTimeInterval = 0.25  # seconds
+pedestrianWaitTime = 30.0  # seconds
+debounceTime = 0.1  # seconds
+
+def read_push_button(board, buttonPin)->bool:
     """
-        Executes the Tunnel Ave Control Subsystem
+    Read the state of a push button with basic debouncing
+    
+    Parameters:
+        board (pymata4.pymata4.Pymata4): board instance
+        buttonPin (int): digital pin for the push button
+        
+    Returns:
+        bool: True if button pressed, False otherwise
+    """
+
+    board.set_pin_mode_digital_input(buttonPin)
+    button_state = board.digital_read(buttonPin)[0]
+    
+    # Basic debouncing
+    if button_state == 1:
+        time.sleep(debounceTime)
+        # Confirm button is still pressed
+        return board.digital_read(buttonPin)[0]
+    return False
+
+def tunnel_ave(board, trafficLight, pedestrianLight, pushButton)->None:
+    """
+        Executes the Tunnel Ave Control Subsystem, manage traffic lights' and pedestrian lights' behaviour when push button is pressed.
 
     Parameter:
-    -boardInput(pymata4.pymata4.Pymata4): board instance
+        board (pymata4.pymata4.Pymata4): board instance
+        
+        trafficLight (dictionary): Traffic light pins configuration:
+            - red (int): Digital pin for the red traffic light
+            - yellow (int): Digital pin for the yellow traffic light
+            - green (int): Digital pin for the green traffic light
 
-    -tL4(dictionary):
-        - red (int): digitalPin
-        - yellow (int): digitalPin
-        - green (int): digitalPin
 
-    -PL1(dictionary):
-        - red (int): digitalPin
-        - green (int): digitalPin
+        pedestrianLight (dictionary): Pedestrian light pins configuration:
+            - red (int): Digital pin for the red pedestrian light
+            - green (int): Digital pin for the green pedestrian light
 
-    -bP1(int): digitalPin
 
-    -bp2(int): digitalPin
+        pushButton (int): Digital pin for pedestrian push button
 
     Return:
-    None
+        None
     
     """
 
-    tL4Red = tL4["red"]
-    tL4Yellow = tL4["yellow"]
-    tL4Green = tL4["green"]
-
-    pL1Red = pL1["red"]
-    pL1Green = pL1["green"]
-
-
-    outputPins = [tL4Red,tL4Yellow,tL4Green,pL1Red,pL1Green]
+    # Extract pin assignments
+    redTL = trafficLight["red"]
+    yellowTL = trafficLight["yellow"]
+    greenTL = trafficLight["green"]
     
+    redPL = pedestrianLight["red"]
+    greenPL = pedestrianLight["green"]
+    
+    outputPins=[redTL, yellowTL, greenTL, redPL, greenPL]
+    
+    # Configure output pins
     for pin in outputPins:
-        boardInput.set_pin_mode_digital_output(pin)
-    
+        board.set_pin_mode_digital_output(pin)
 
-    while True:
-        try:
-            boardInput.digital_pin_write(pL1Red,1)
-            boardInput.digital_pin_write(pL1Green,0)
+    # Configure button input
+    board.set_pin_mode_digital_input(pushButton)
 
-            boardInput.digital_pin_write(tL4Red,0)
-            boardInput.digital_pin_write(tL4Yellow,0)
-            boardInput.digital_pin_write(tL4Green,1)
-
-            while True:
-                buttonState1 = pushButton(boardInput,bP1)
-                buttonState2 = pushButton(boardInput,bP2)
-
-                if buttonState1 == 1 or buttonState2==1:
-                    print("Pedestrian push button PB1 is pressed.")
-                    time.sleep(2)
-
-                    boardInput.digital_pin_write(tL4Green,0)
-                    boardInput.digital_pin_write(tL4Yellow,1)
-                    time.sleep(2)
-
-                    boardInput.digital_pin_write(tL4Red,1)
-                    boardInput.digital_pin_write(tL4Yellow,0)
-
-                    boardInput.digital_pin_write(pL1Red,0)
-                    boardInput.digital_pin_write(pL1Green,1)
-                    time.sleep(3)
-
-                    boardInput.digital_pin_write(pL1Green,0)
-                    boardInput.digital_pin_write(pL1Red,1) #pL1 flash red for 2 seconds
-                    time.sleep(0.5)
-                    boardInput.digital_pin_write(pL1Red,0)
-                    time.sleep(0.5)
-                    boardInput.digital_pin_write(pL1Red,1)
-                    time.sleep(0.5)
-                    boardInput.digital_pin_write(pL1Red,0)
-                    time.sleep(0.5)
-                    break
+    # Track last push button press time
+    pressTimeInterval = 0
+    systemStartFlag = False
 
 
-        except KeyboardInterrupt:
-            print("Board Shutdown")
-            boardInput.shutdown()
+    try:
+        # main control loop
+        while True:
+            # Default state: TL4 is green, PL1 is red
+            board.digital_pin_write(redPL,1)
+            board.digital_pin_write(greenPL,0)
+
+            board.digital_pin_write(redTL,0)
+            board.digital_pin_write(yellowTL,0)
+            board.digital_pin_write(greenTL,1)
+
+            # After PB1 is pressed, wait 30 seconds before allowing the main loop to execute again
+            executable = True
+            
+            # Check if the system have executed before
+            if (systemStartFlag):
+                pressTimeInterval = time.time() - pressTimeInterval
+                if pressTimeInterval < systemWaitTime: 
+                    executable = False
+                else:
+                    executable = True
+
+
+            if read_push_button(board, pushButton) and executable:                
+                # print button pressed and wait for 2 second
+                print("Pedestrian push button PB1 is pressed.")
+                time.sleep(systemWaitTime)
+
+                # TL4 turns yellow for 2 seconds
+                board.digital_pin_write(greenTL,0)
+                board.digital_pin_write(yellowTL,1)
+                time.sleep(yellowTLTime)
+
+                # TL4 turns red for 5 seconds
+                board.digital_pin_write(redTL,1)
+                board.digital_pin_write(yellowTL,0)
+
+                # PL1 turns green for 3 seconds
+                board.digital_pin_write(redPL,0)
+                board.digital_pin_write(greenPL,1)
+                time.sleep(greenPLTime)
+
+                # Turn off PL1 green light
+                board.digital_pin_write(greenPL,0)
+
+                # PL1 flashing red 4 times over 2 seconds
+                for sequence in range(redFlashingTime/flashTimeInterval):
+                    board.digital_pin_write(redPL, 1)
+                    time.sleep(0.25)
+                    board.digital_pin_write(redPL, 0)
+                    time.sleep(0.25)
+
+                # Reset to solid red for PL1
+                board.digital_pin_write(redPL, 1)
+
+                # TL4 turns back to green
+                board.digital_pin_write(redTL, 0)
+                board.digital_pin_write(greenTL, 1)
+                
+                # update time interval as the current time
+                pressTimeInterval = time.time()
+                systemStartFlag = True
+
+            # Small delay to prevent CPU overutilization
+            time.sleep(0.05)
+
+    except KeyboardInterrupt:
+        print("Board Shuting down...")
+
+        # Turn off all lights before shutdown
+        for pin in outputPins:
+            board.digital_pin_write(pin, 0)
+                
+        board.shutdown()

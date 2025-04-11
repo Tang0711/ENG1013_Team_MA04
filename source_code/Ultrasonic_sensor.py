@@ -4,7 +4,7 @@
 
 import time
 
-def ultrasonicSonar(boardInput,triggerPin,echoPin):
+def read_ultrasonic(boardInput,triggerPin,echoPin):
     """
 
     Retrieves distance (cm) reading between object and sensor
