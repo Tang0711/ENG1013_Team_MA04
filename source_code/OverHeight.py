@@ -1,7 +1,7 @@
 # This module implements the Approach Height Detection Subsystem
 # Created By : Looi_Yao_Ren(34471804)
 # Created Date: 28/03/2025 1649
-# version = '1.0'
+# version = '2.0'
 
 from Ultrasonic_sensor import read_ultrasonic
 import time
