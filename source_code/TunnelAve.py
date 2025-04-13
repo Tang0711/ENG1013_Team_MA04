@@ -6,15 +6,14 @@
 # Reviewed by : Tang Wei Zhi (11/04/2025)
 
 import time
-
+import pymata4.pymata4 as pymata4
 # Constants for timing
 systemWaitTime = 2.0 # second
 yellowTLTime = 2.0  # seconds
 redFlashingTime = 5.0 # seconds
 greenPLTime = 3.0  # seconds
 flashTimeInterval = 0.25  # seconds
-pedestrianWaitTime = 30.0  # seconds
-debounceTime = 0.1  # seconds
+
 
 def read_push_button(board, buttonPin)->bool:
     """
@@ -31,12 +30,10 @@ def read_push_button(board, buttonPin)->bool:
     board.set_pin_mode_digital_input(buttonPin)
     button_state = board.digital_read(buttonPin)[0]
     
-    # Basic debouncing
     if button_state == 1:
-        time.sleep(debounceTime)
-        # Confirm button is still pressed
-        return board.digital_read(buttonPin)[0]
-    return False
+        return True
+    else:
+        return False
 
 def tunnel_ave(board, trafficLight, pedestrianLight, pushButton)->None:
     """
@@ -80,11 +77,6 @@ def tunnel_ave(board, trafficLight, pedestrianLight, pushButton)->None:
     # Configure button input
     board.set_pin_mode_digital_input(pushButton)
 
-    # Track last push button press time
-    pressTimeInterval = 0
-    systemStartFlag = False
-
-
     try:
         # main control loop
         while True:
@@ -96,19 +88,7 @@ def tunnel_ave(board, trafficLight, pedestrianLight, pushButton)->None:
             board.digital_pin_write(yellowTL,0)
             board.digital_pin_write(greenTL,1)
 
-            # After PB1 is pressed, wait 30 seconds before allowing the main loop to execute again
-            executable = True
-            
-            # Check if the system have executed before
-            if (systemStartFlag):
-                pressTimeInterval = time.time() - pressTimeInterval
-                if pressTimeInterval < systemWaitTime: 
-                    executable = False
-                else:
-                    executable = True
-
-
-            if read_push_button(board, pushButton) and executable:                
+            if read_push_button(board, pushButton):                
                 # print button pressed and wait for 2 second
                 print("Pedestrian push button PB1 is pressed.")
                 time.sleep(systemWaitTime)
@@ -131,11 +111,11 @@ def tunnel_ave(board, trafficLight, pedestrianLight, pushButton)->None:
                 board.digital_pin_write(greenPL,0)
 
                 # PL1 flashing red 4 times over 2 seconds
-                for sequence in range(redFlashingTime/flashTimeInterval):
+                for sequence in range(4):
                     board.digital_pin_write(redPL, 1)
-                    time.sleep(0.25)
+                    time.sleep(flashTimeInterval)
                     board.digital_pin_write(redPL, 0)
-                    time.sleep(0.25)
+                    time.sleep(flashTimeInterval)
 
                 # Reset to solid red for PL1
                 board.digital_pin_write(redPL, 1)
@@ -143,10 +123,6 @@ def tunnel_ave(board, trafficLight, pedestrianLight, pushButton)->None:
                 # TL4 turns back to green
                 board.digital_pin_write(redTL, 0)
                 board.digital_pin_write(greenTL, 1)
-                
-                # update time interval as the current time
-                pressTimeInterval = time.time()
-                systemStartFlag = True
 
             # Small delay to prevent CPU overutilization
             time.sleep(0.05)
@@ -159,3 +135,24 @@ def tunnel_ave(board, trafficLight, pedestrianLight, pushButton)->None:
             board.digital_pin_write(pin, 0)
                 
         board.shutdown()
+
+def main()->None:
+    """
+    main entry point to execute the Tunnel Ave Control Subsystem
+
+    Parameter:
+        None
+
+    Return:
+        None
+    """
+    # initialise board instance
+    board=pymata4.Pymata4()
+    #pin assignments
+    tl4={"red":8,"yellow":9,"green":10}
+    pl1={"red":6,"green":7}
+    pb=4
+    tunnel_ave(board,tl4,pl1,pb)
+
+if __name__=="__main__":
+    main()
