@@ -37,7 +37,7 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic,tunn
             - triggerPin (int): Digital pin for the trigger pin
             - echoPin (int): Digital pin for the echo pin
 
-        -tunnelHeight(float): Tunnel height
+        tunnelHeight(float): Tunnel height
     
         threshold(int): maximum height allowed
         
