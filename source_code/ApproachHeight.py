@@ -1,12 +1,12 @@
 # This module implements the Tunnel Avenue Control Subsystem
-# Created By : Looi_Yao_Ren(34471804)
-# Created Date: 28/03/2025 1649
-# version = '3.0'
+# Created By : Tan Bryan(36296643)
+# Created Date: 13/04/2025 1649
+# version = '2.0'
 
-# Reviewed by : Tang Wei Zhi (11/04/2025)
-
+from pymata4 import pymata4
 from Ultrasonic_sensor import read_ultrasonic
 import time
+
 
 # Constants for timing and measurements
 yellowTLTime = 1.0  # seconds
@@ -126,3 +126,25 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic, )->
             board.digital_pin_write(pin, 0)
             
         board.shutdown()
+
+def main():
+    """
+    
+    Upload the  subsystem to the arduinoboard and executes the Approach Height Detection Subsystem
+    
+    Parameter:
+    None
+    
+    Return:
+    None
+    
+    
+    """
+    board1013 = pymata4.Pymata4()
+    tL1={"red":2,"green":4,"yellow":3}
+    tL2={"red":6,"green":8,"yellow":7}
+    ultrasonic = {"triggerPin":11,"echoPin":12}
+    approach_height_detection(board1013,tL1,tL2,ultrasonic,100,20)
+
+if __name__ == "__main__":
+    main()
