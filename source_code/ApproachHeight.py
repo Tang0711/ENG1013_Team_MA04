@@ -15,7 +15,7 @@ tl2DelayTime = 1.0  # seconds
 threshold = 20  # cm
 tunnelHeight = 100 # cm
 
-def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic, )->None:
+def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic,tunnelHeight,threshold)->None:
     """
 
     Executes the Approach Height Detection Subsystem, and manages traffic lights when detecting vehicle height using ultrasonic sensor. 
@@ -36,6 +36,8 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic, )->
         ultrasonic (dictionary): ultrasonic pin configuration:
             - triggerPin (int): Digital pin for the trigger pin
             - echoPin (int): Digital pin for the echo pin
+
+        -tunnelHeight(float): Tunnel height
     
         threshold(int): maximum height allowed
         
@@ -144,7 +146,12 @@ def main():
     tL1={"red":2,"green":4,"yellow":3}
     tL2={"red":6,"green":8,"yellow":7}
     ultrasonic = {"triggerPin":11,"echoPin":12}
-    approach_height_detection(board1013,tL1,tL2,ultrasonic,100,20)
+    
+    #Set constant Tunnel height and overheight threshold
+    tunnelHeight = 100
+    threshold =70
+
+    approach_height_detection(board1013,tL1,tL2,ultrasonic,tunnelHeight,threshold)
 
 if __name__ == "__main__":
     main()
