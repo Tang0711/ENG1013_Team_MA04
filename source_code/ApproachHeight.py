@@ -1,7 +1,7 @@
 # This module implements the Tunnel Avenue Control Subsystem
 # Created By : Looi_Yao_Ren(34471804)
 # Created Date: 28/03/2025 1649
-# version = '2.0'
+# version = '3.0'
 
 # Reviewed by : Tang Wei Zhi (11/04/2025)
 
@@ -78,10 +78,10 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic, )->
             # read ultrasonic sensor input    
             distanceCM = read_ultrasonic(board,trigPin,echoPin)
 
-            # convert deected value to height
+            # convert detected value to height
             heightCM = tunnelHeight - distanceCM
 
-            if heightCM > threshold:
+            if heightCM > threshold and 2<=distanceCM<=400:
                 # print an alert
                 print(f"Alert: {heightCM}cm detected at {time.time()}")
                 
@@ -121,7 +121,7 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic, )->
     except KeyboardInterrupt:
         print("Board Shutting down...")
         
-        # Turn off all lights and speaker before shutdown
+        # Turn off all lights before shutdown
         for pin in outputPins:
             board.digital_pin_write(pin, 0)
             
