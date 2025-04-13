@@ -60,6 +60,14 @@ def tunnel_height(boardInput,tL3,ultrasonic,tunnel_height,threshold):
                     break               
 
         except KeyboardInterrupt:
+            print("Board Shutdown")
+            
+            #Turns off all pins
+            for pin in outputPins:
+                board.digital_pin_write(pin, 0)
+                
             boardInput.shutdown()
+
+
             
 
