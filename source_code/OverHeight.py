@@ -7,7 +7,7 @@ from Ultrasonic_sensor import read_ultrasonic
 import time
 from pymata4 import pymata4
 
-def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
+def over_height_exit(boardInput,tL5,ultrasonic,tunnelHeight,threshold):
     """
 
     Executes the Approach Height Detection Subsystem
@@ -23,7 +23,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
         - triggerPin (int): digitalPin
         - echoPin (int): digitalPin
 
-    -tunnel_height(float): Tunnel height
+    -tunnelHeight(float): Tunnel height
     -threshold(float): maximum height allowed
         
     Return:
@@ -57,7 +57,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
                 distanceCM = read_ultrasonic(boardInput,trigPin,echoPin)
 
                 #Converts ultraosonic reading to vehicle height
-                heightCM = tunnel_height - distanceCM
+                heightCM = tunnelHeight - distanceCM
 
                 #upon detecting an overheight vehicle triggers response
                 if heightCM > threshold and 2<=distanceCM<=400:
@@ -106,7 +106,7 @@ def main():
     ultrasonic = {'triggerPin':4,'echoPin':5}
 
     #Set constant Tunnel height and overheight threshold
-    tunnel_height = 100
+    tunnelHeight = 100
     threshold =70
 
     #Call subsystem
