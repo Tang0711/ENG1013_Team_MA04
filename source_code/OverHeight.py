@@ -31,7 +31,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
     
     """
 
-
+    #Pin assignments
     tL5Red = tL5["red"]
     tL5Yellow = tL5["yellow"]
     tL5Green = tL5["green"]
@@ -41,17 +41,22 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
 
     outputPins = [tL5Red,tL5Yellow, tL5Green]
 
+    #Configure Pins
     for pin in outputPins:
         boardInput.set_pin_mode_digital_output(pin)
-    
+
+    #main control loop
     while True:
         try:
+            #default state of all output pins
             boardInput.digital_pin_write(tL5Red,1)
             boardInput.digital_pin_write(tL5Yellow,0)
             boardInput.digital_pin_write(tL5Green,0)
 
             while True:
                 distanceCM = read_ultrasonic(boardInput,trigPin,echoPin)
+
+                #Converts ultraosonic reading to vehicle height
                 heightCM = tunnel_height - distanceCM
 
                 #upon detecting an overheight vehicle triggers response
@@ -76,6 +81,11 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
 
         except KeyboardInterrupt:
             print("Board Shutdown")
+
+            #Turn off all outputpins
+            for pin in outputPins:
+                board.digital_pin_write(pin, 0)
+            
             boardInput.shutdown()
 
 def main():
