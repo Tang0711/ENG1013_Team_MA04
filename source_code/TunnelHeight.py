@@ -32,6 +32,7 @@ def tunnel_height(boardInput,tL3,ultrasonic,tunnel_height,threshold):
 
     outputPins = [tL3Red,tL3Green]
 
+    #Configure pins
     for pin in outputPins:
         boardInput.set_pin_mode_digital_output(pin)
     
