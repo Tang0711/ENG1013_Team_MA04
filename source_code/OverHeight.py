@@ -48,7 +48,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
     #main control loop
     while True:
         try:
-            #default state of all output pins
+            #default state of all output pins: TL5 is red
             boardInput.digital_pin_write(tL5Red,1)
             boardInput.digital_pin_write(tL5Yellow,0)
             boardInput.digital_pin_write(tL5Green,0)
