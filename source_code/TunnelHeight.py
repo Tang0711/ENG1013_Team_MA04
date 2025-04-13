@@ -20,7 +20,7 @@ def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
     -ultrasonic(dictionary):
         - triggerPin (int): digitalPin
         - echoPin (int): digitalPin
-    
+    -tunnel_height(float): Tunnel height
     -threshold(int): maximum height allowed
     
     Return:
