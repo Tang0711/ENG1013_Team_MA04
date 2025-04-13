@@ -7,7 +7,7 @@ import time
 from pymata4 import pymata4
 from Ultrasonic_sensor import read_ultrasonic
 
-def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
+def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnelHeight,threshold):
     """
         Executes the Tunnel Height Detection Subsystem
 
@@ -20,7 +20,7 @@ def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
     -ultrasonic(dictionary):
         - triggerPin (int): digitalPin
         - echoPin (int): digitalPin
-    -tunnel_height(float): Tunnel height
+    -tunnelHeight(float): Tunnel height
     -threshold(int): maximum height allowed
     
     Return:
@@ -51,7 +51,7 @@ def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
                 distanceCM = read_ultrasonic(boardInput,trigPin,echoPin)
 
                 #converts ultrasonic readings to vehicle height
-                heightCM = tunnel_height - distanceCM
+                heightCM = tunnelHeight - distanceCM
 
                 #Upon detecting an overheight vehicle turns TL3 to red
                 if heightCM > threshold and 2 <= distanceCM <=400 :
@@ -87,9 +87,9 @@ def main():
     boardInput = pymata4.Pymata4()
     tL3={"red":6,"green":7}
     ultrasonic = {"triggerPin":13,"echoPin":12}
-    tunnel_height = 100
+    tunnelHeight = 100
     threshold = 20
-    tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold)
+    tunnel_height_detection(boardInput,tL3,ultrasonic,tunnelHeight,threshold)
 
 
 if __name__ == "__main__":
