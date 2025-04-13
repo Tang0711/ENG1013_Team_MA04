@@ -5,6 +5,7 @@
 
 from Ultrasonic_sensor import read_ultrasonic
 import time
+from pymata4 import pymata4
 
 def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
     """
@@ -13,7 +14,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
 
     Parameter:
     -boardInput(pymata4.pymata4.Pymata4):
-    -tL3(dictionary):
+    -tL5(dictionary):
         - red (int): digitalPin
         - yellow (int): digitalPin
         - green (int): digitalPin
@@ -21,8 +22,9 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
     -ultrasonic(dictionary):
         - triggerPin (int): digitalPin
         - echoPin (int): digitalPin
-    
-    -threshold(int): maximum height allowed
+
+    -tunnel_height(float): Tunnel height
+    -threshold(float): maximum height allowed
         
     Return:
     None
@@ -52,7 +54,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
                 distanceCM = read_ultrasonic(boardInput,trigPin,echoPin)
                 heightCM = tunnel_height - distanceCM
 
-                if heightCM > threshold and heightCM !=tunnel_height:
+                if heightCM > threshold and 2<=distanceCM<=400:
                     boardInput.digital_pin_write(tL5Red,0)
                     boardInput.digital_pin_write(tL5Yellow,1)
                     time.sleep(2)
@@ -67,3 +69,28 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
         except KeyboardInterrupt:
             print("Board Shutdown")
             boardInput.shutdown()
+
+def main():
+    """
+
+    Uploads the subsystem to the Arduino board and executes the Approach Height Detection Subsystem
+
+    Parameter:
+    None
+        
+    Return:
+    None
+    
+    """
+    boardInput = pymata4.Pymata4()
+    tL5 = {'red':6,'yellow':7,'green':8}
+    ultrasonic = {'triggerPin':4,'echoPin':5}
+    tunnel_height = 100
+    threshold =70
+    over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold)
+
+if __name__ == "__main__":
+    main()
+
+    
+    
