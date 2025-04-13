@@ -18,7 +18,7 @@ tunnelHeight = 100 # cm
 def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic, )->None:
     """
 
-    Executes the Approach Height Detection Subsystem, manage traffic lights' speaker system's and warning lights' behaviour when detecting vehicle height using ultrasonic sensor. 
+    Executes the Approach Height Detection Subsystem, and manages traffic lights when detecting vehicle height using ultrasonic sensor. 
 
     Parameter:
         board (pymata4.pymata4.Pymata4): board instance
