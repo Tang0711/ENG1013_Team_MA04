@@ -5,7 +5,7 @@
 
 import time
 from pymata4 import pymata4
-from Ultrasonic_sensor import ultrasonicSonar
+from Ultrasonic_sensor import read_ultrasonic
 
 def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
     """
@@ -48,7 +48,7 @@ def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
             boardInput.digital_pin_write(tL3Green,1)
             
             while True:
-                distanceCM = ultrasonicSonar(boardInput,trigPin,echoPin)
+                distanceCM = read_ultrasonic(boardInput,trigPin,echoPin)
 
                 #converts ultrasonic readings to vehicle height
                 heightCM = tunnel_height - distanceCM
