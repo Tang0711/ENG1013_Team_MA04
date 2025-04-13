@@ -41,7 +41,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
 
     outputPins = [tL5Red,tL5Yellow, tL5Green]
 
-    #Configure Pins
+    #Configure Output Pins
     for pin in outputPins:
         boardInput.set_pin_mode_digital_output(pin)
 
