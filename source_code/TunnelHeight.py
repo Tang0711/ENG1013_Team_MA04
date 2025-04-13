@@ -4,7 +4,7 @@
 
 from Ultrasonic_sensor import ultrasonicSonar
 
-def tunnel_height(boardInput,tL3,ultrasonic,tunnel_height,threshold):
+def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
     """
         Executes the Tunnel Height Detection Subsystem
 
