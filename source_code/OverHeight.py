@@ -54,15 +54,23 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
                 distanceCM = read_ultrasonic(boardInput,trigPin,echoPin)
                 heightCM = tunnel_height - distanceCM
 
+                #upon detecting an overheight vehicle triggers response
                 if heightCM > threshold and 2<=distanceCM<=400:
+
+                    #TL5 turns yellow for 2 seconds
                     boardInput.digital_pin_write(tL5Red,0)
                     boardInput.digital_pin_write(tL5Yellow,1)
                     time.sleep(2)
 
+                    #TL5 turns green for 5 seconds 
                     boardInput.digital_pin_write(tL5Yellow,0)
                     boardInput.digital_pin_write(tL5Green,1)
                     time.sleep(5)
+
+                    #TL5 returns to initial state
                     break
+
+                #Otherwise, keep checking
                 else:
                     continue
 
@@ -72,7 +80,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold):
 
 def main():
     """
-
+    
     Uploads the subsystem to the Arduino board and executes the Approach Height Detection Subsystem
 
     Parameter:
@@ -82,11 +90,16 @@ def main():
     None
     
     """
+    #Initialise board and digital pins
     boardInput = pymata4.Pymata4()
     tL5 = {'red':6,'yellow':7,'green':8}
     ultrasonic = {'triggerPin':4,'echoPin':5}
+
+    #Set constant Tunnel height and overheight threshold
     tunnel_height = 100
     threshold =70
+
+    #Call subsystem
     over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold)
 
 if __name__ == "__main__":
