@@ -1,7 +1,10 @@
-# Created By : Looi_Yao_Ren(34471804)
-# Created Date: 28/03/2025 1725
-# version = '1.0'
+# this module implements the tunnel height detection system
+# Created By : Akram Abdullah Mohammed (34584714)
+# Created Date: 13/04/2025 0855
+# version = '2.0'
 
+import time
+from pymata4 import pymata4
 from Ultrasonic_sensor import ultrasonicSonar
 
 def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
@@ -64,10 +67,31 @@ def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
             
             #Turns off all pins
             for pin in outputPins:
-                board.digital_pin_write(pin, 0)
+                boardInput.digital_pin_write(pin, 0)
                 
             boardInput.shutdown()
 
+def main():
+    """
+    
+    Uploads the subsystem to the Arduino board and executes the Tunnel Height Detection System
 
+    Parameter:
+    None
+
+    Return:
+    None
+
+    
+    """
+    boardInput = pymata4.Pymata4()
+    tL3={"red":6,"green":7}
+    ultrasonic = {"triggerPin":13,"echoPin":12}
+    tunnel_height = 100
+    threshold = 20
+    tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold)
+
+
+if __name__ == "__main__":
+    main()
             
-
