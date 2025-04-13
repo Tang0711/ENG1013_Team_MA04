@@ -40,7 +40,7 @@ def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnel_height,threshold):
     #Main Control loop
     while True:
         try:
-            #Default states for all output pins
+            #Default states for all output pins: TL3 is green
             boardInput.digital_pin_write(tL3Red,0)
             boardInput.digital_pin_write(tL3Green,1)
             
