@@ -106,8 +106,8 @@ def main():
     ultrasonic = {'triggerPin':4,'echoPin':5}
 
     #Set constant Tunnel height and overheight threshold
-    tunnelHeight = 100
-    threshold =70
+    tunnelHeight = 50
+    threshold = 40
 
     #Call subsystem
     over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold)
