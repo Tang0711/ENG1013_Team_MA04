@@ -75,7 +75,7 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic,tunn
             # convert detected value to height
             heightCM = tunnelHeight - distanceCM
 
-            if heightCM > threshold and 2<=distanceCM<=400:
+            if heightCM > threshold and 2<=distanceCM<=60:
                 # print an alert
                 print(f"Alert: {heightCM}cm detected at {time.time()}")
                 
