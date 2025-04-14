@@ -110,7 +110,7 @@ def main():
     threshold = 40
 
     #Call subsystem
-    over_height_exit(boardInput,tL5,ultrasonic,tunnel_height,threshold)
+    over_height_exit(boardInput,tL5,ultrasonic,tunnelHeight,threshold)
 
 if __name__ == "__main__":
     main()
