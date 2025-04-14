@@ -12,7 +12,7 @@ def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnelHeight,threshold):
         Executes the Tunnel Height Detection Subsystem
 
     Parameter:
-    -boardInput(pymata4.pymata4.Pymata4):
+    -boardInput(pymata4.pymata4.Pymata4): board instance
     -tL3(dictionary):
         - red (int): digitalPin
         - green (int): digitalPin
