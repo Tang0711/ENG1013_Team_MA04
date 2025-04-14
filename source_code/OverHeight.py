@@ -10,7 +10,7 @@ from pymata4 import pymata4
 def over_height_exit(boardInput,tL5,ultrasonic,tunnelHeight,threshold):
     """
 
-    Executes the Approach Height Detection Subsystem
+    Executes the Over Height Exit Subsystem
 
     Parameter:
     -boardInput(pymata4.pymata4.Pymata4):
