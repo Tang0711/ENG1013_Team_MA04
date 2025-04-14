@@ -103,7 +103,7 @@ def main():
     #Initialise board and digital pins
     boardInput = pymata4.Pymata4()
     tL5 = {'red':6,'yellow':7,'green':8}
-    ultrasonic = {'triggerPin':4,'echoPin':5}
+    ultrasonic = {'triggerPin':12,'echoPin':13}
 
     #Set constant Tunnel height and overheight threshold
     tunnelHeight = 50
