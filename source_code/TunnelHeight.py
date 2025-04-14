@@ -87,8 +87,8 @@ def main():
     boardInput = pymata4.Pymata4()
     tL3={"red":6,"green":7}
     ultrasonic = {"triggerPin":13,"echoPin":12}
-    tunnelHeight = 100
-    threshold = 20
+    tunnelHeight = 50
+    threshold = 40
     tunnel_height_detection(boardInput,tL3,ultrasonic,tunnelHeight,threshold)
 
 
