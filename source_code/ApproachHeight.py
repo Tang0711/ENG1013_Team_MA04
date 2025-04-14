@@ -77,7 +77,7 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic,tunn
 
             if heightCM > threshold and 2<=distanceCM<=60:
                 # print an alert
-                print(f"Alert: {heightCM}cm vehicle detected at {time.time()}. Overheight!")
+                print(f"Alert: {heightCM}cm height vehicle detected at {time.time()}. Overheight!")
                 
                 # TL1 switch to yellow for 1 second
                 board.digital_pin_write(greenTL1,0)                    
