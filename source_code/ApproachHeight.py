@@ -1,4 +1,4 @@
-# This module implements the Tunnel Avenue Control Subsystem
+# This module implements the Approach Height Detection Subsystem
 # Created By : Tan Bryan(36296643)
 # Created Date: 13/04/2025 1649
 # version = '2.0'
