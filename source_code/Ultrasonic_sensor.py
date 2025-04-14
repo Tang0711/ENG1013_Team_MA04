@@ -18,7 +18,7 @@ def read_ultrasonic(boardInput,triggerPin,echoPin):
     - distanceCM(int): distance(cm) between object and sensor
 
     """
-    boardInput.set_pin_mode_sonar(triggerPin,echoPin)
+    boardInput.set_pin_mode_sonar(triggerPin,echoPin,timeout=200000)
     time.sleep(0.01)
     data = boardInput.sonar_read(triggerPin)
     distanceCM=data[0]
