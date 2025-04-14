@@ -13,7 +13,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnelHeight,threshold):
     Executes the Over Height Exit Subsystem
 
     Parameter:
-    -boardInput(pymata4.pymata4.Pymata4):
+    -boardInput(pymata4.pymata4.Pymata4): board instance
     -tL5(dictionary):
         - red (int): digitalPin
         - yellow (int): digitalPin
