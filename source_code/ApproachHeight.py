@@ -7,14 +7,6 @@ from pymata4 import pymata4
 from Ultrasonic_sensor import read_ultrasonic
 import time
 
-
-# Constants for timing and measurements
-yellowTLTime = 1.0  # seconds
-redTLTime = 30.0  # seconds
-tl2DelayTime = 1.0  # seconds
-threshold = 20  # cm
-tunnelHeight = 100 # cm
-
 def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic,tunnelHeight,threshold)->None:
     """
 
@@ -90,7 +82,7 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic,tunn
                 # TL1 switch to yellow for 1 second
                 board.digital_pin_write(greenTL1,0)                    
                 board.digital_pin_write(yellowTL1,1)
-                time.sleep(yellowTLTime)
+                time.sleep(1)
 
                 # TL1 switch to red
                 board.digital_pin_write(redTL1,1)
@@ -99,14 +91,14 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic,tunn
                 # TL2 switch to yellow for 1 second                
                 board.digital_pin_write(greenTL2,0)
                 board.digital_pin_write(yellowTL2,1)
-                time.sleep(tl2DelayTime)
+                time.sleep(1)
 
                 # TL2 switch to red
                 board.digital_pin_write(yellowTL2,0)
                 board.digital_pin_write(redTL2,1)
 
                 # remain the traffic light status for 29 seconds
-                time.sleep(redTLTime-tl2DelayTime)
+                time.sleep(29)
 
                 # TL1 switch to green
                 board.digital_pin_write(redTL1,0)
@@ -114,7 +106,7 @@ def approach_height_detection(board,trafficLight1,trafficLight2, ultrasonic,tunn
 
                 
                 # TL2 switch to green after 1 second
-                time.sleep(tl2DelayTime)
+                time.sleep(1)
                 board.digital_pin_write(redTL2,0)
                 board.digital_pin_write(greenTL2,1)
 
