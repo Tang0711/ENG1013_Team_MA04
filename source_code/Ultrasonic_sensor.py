@@ -11,7 +11,7 @@ def read_ultrasonic(boardInput,triggerPin,echoPin):
     Retrieves distance (cm) reading between object and sensor
 
     Parameter:
-    - boardInput(pymata4.pymata4.Pymata4)
+    - boardInput(pymata4.pymata4.Pymata4): board instance
     - triggerPin(int): digitalPin
     - echoPin(int): digitalPin
 
