@@ -1,4 +1,4 @@
-# This module implements the Approach Height Detection Subsystem
+# This module implements the Over Height Exit Subsystem
 # Created By : Looi_Yao_Ren(34471804)
 # Created Date: 28/03/2025 1649
 # version = '2.0'
