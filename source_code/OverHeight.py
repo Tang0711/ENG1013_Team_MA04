@@ -60,7 +60,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnelHeight,threshold):
                 heightCM = tunnelHeight - distanceCM
 
                 #upon detecting an overheight vehicle triggers response
-                if heightCM > threshold and 2<=distanceCM<=400:
+                if heightCM > threshold and 2<=distanceCM<=60:
 
                     #TL5 turns yellow for 2 seconds
                     boardInput.digital_pin_write(tL5Red,0)
