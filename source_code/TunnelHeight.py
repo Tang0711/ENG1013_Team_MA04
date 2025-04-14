@@ -54,7 +54,7 @@ def tunnel_height_detection(boardInput,tL3,ultrasonic,tunnelHeight,threshold):
                 heightCM = tunnelHeight - distanceCM
 
                 #Upon detecting an overheight vehicle turns TL3 to red
-                if heightCM > threshold and 2 <= distanceCM <=400 :
+                if heightCM > threshold and 2 <= distanceCM <=60 :
                     boardInput.digital_pin_write(tL3Green,0)
                     boardInput.digital_pin_write(tL3Red,1)
 
