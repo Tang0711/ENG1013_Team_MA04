@@ -84,7 +84,7 @@ def over_height_exit(boardInput,tL5,ultrasonic,tunnelHeight,threshold):
 
             #Turn off all outputpins
             for pin in outputPins:
-                board.digital_pin_write(pin, 0)
+                boardInput.digital_pin_write(pin, 0)
             
             boardInput.shutdown()
 
