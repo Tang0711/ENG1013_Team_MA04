@@ -148,8 +148,8 @@ def main():
     ultrasonic = {"triggerPin":11,"echoPin":12}
     
     #Set constant Tunnel height and overheight threshold
-    tunnelHeight = 100
-    threshold =70
+    tunnelHeight = 50
+    threshold = 40
 
     approach_height_detection(board1013,tL1,tL2,ultrasonic,tunnelHeight,threshold)
 
