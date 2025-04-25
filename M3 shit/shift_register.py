@@ -10,6 +10,7 @@ def set_tL_state(board1013,shifterPin,byte):
     for char in byte:
         shiftByte.append(int(char))
 
+    #clear existing storage register bytes
     board1013.digital_pin_write(clearPin,1)
     board1013.digital_pin_write(clearPin,0)
 
