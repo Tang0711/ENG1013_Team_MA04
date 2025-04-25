@@ -84,13 +84,8 @@ def sub1_response():
 
 try:
     while True:
-    #     tL_switch(board1013,tL1,tL1Pin)
-    #     tL_switch(board1013,tL2,tL2Pin)
-    #     if us1 == True:#
-    #         us1_state(board1013,us1Pin["trig"],us1Pin["echo"],tunnelHeight,threshold)
-    #     sub1_response()
-    #     time.sleep(0.05)#
-    # board1013.pwm_write(tL5Pin["green"],250)
+        tL_switch(board1013,tL1,tL1Pin)
+        tL_switch(board1013,tL2,tL2Pin)
         print(read_ultrasonic(board1013,us3Pin["trig"],us3Pin["echo"]))
 except KeyboardInterrupt:
     board1013.shutdown()
