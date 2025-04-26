@@ -70,18 +70,18 @@ def tL_without_yellow_shiftbyte(tLState):
 
 def tL5_shiftbyte(tLState):
 
-    #byte follows red,yellow
+    #byte follows red,yellow,solidgreen,flashgreen
 
-    if tLState == "rr":
-        shiftbyte = "01"
-        pwmGreen = 0
+    if tLState == "r":
+        shiftbyte = "1000"
 
-    if tLState == "gg":
-        shiftbyte = "00"
-        pwmGreen = 250
+    if tLState == "y":
+        shiftbyte = "0100"
+
+    if tLState == "solidg":
+        shiftbyte = "0010"
     
-    if tLState == "ggg":
-        shiftbyte = "00"
-        pwmGreen = 30
+    if tLState == "flashg":
+        shiftbyte = "0001"
 
-    return shiftbyte,pwmGreen
+    return shiftbyte
