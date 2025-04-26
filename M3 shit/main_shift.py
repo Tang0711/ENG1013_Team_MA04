@@ -57,16 +57,16 @@ def us3_state(boardInput,trig,echo,tunnelHeight,threshold):
         us3Detect = True
         overCarExit = False
 
-        if tL5 == "rr":
+        if tL5 == "r":
             us3 = False
             sub3Start = time.time()
 
-        elif tL5 == "gg" or tL5 == "ggg": #
-            tL5 = "ggg"
+        elif tL5 == "solidg" or tL5 == "flashg": #
+            tL5 = "flashg"
 
     else:
         us3Detect = False
-        tL5 = "rr"
+        tL5 = "r"
         
         if overCarExit == False:
             overCarExit = True
@@ -101,7 +101,7 @@ def sub3_response():
         tL5 = "y"
 
     if us3Detect == True and 2<(time.time()-sub3Start)<=7:
-        tL5 = "gg"
+        tL5 = "solidg"
     
     if us3Detect == True and (time.time()-sub3Start)>7:
         us3 = True
@@ -149,7 +149,7 @@ threshold = 40
 tL1 = "g"
 tL2 = "g"
 tL3 = "g"
-tL5 = "rr"
+tL5 = "r"
 us1 = True
 us2 = True
 us3 = True
@@ -160,7 +160,7 @@ try:
         tL1Light = tL_with_yellow_shiftbyte(tL1)
         tL2Light = tL_with_yellow_shiftbyte(tL2)
         tL3Light = tL_without_yellow_shiftbyte(tL3)
-        tL5Light, tL5green = tL5_shiftbyte(tL5)
+        tL5Light = tL5_shiftbyte(tL5)
 
         shift_byte = tL1Light + tL2Light + tL3Light + tL5Light
 
@@ -172,10 +172,11 @@ try:
             us2_state(board1013,us2Pin["trig"],us2Pin["echo"],tunnelHeight,threshold)
         if us3 == True:#
             us3_state(board1013,us3Pin["trig"],us3Pin["echo"],tunnelHeight,threshold)
+
         sub1_response()
         sub3_response()
         integration()
-        time.sleep(0.05) #
+        time.sleep(0.1) #
 except KeyboardInterrupt:
     print("board shutdown")
     board1013.shutdown()
