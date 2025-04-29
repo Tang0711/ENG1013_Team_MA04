@@ -80,7 +80,7 @@ def sub1_response():
     global us1
 
     if us1Detect == True and (time.time()-sub1Start)<=1:
-        print(f"Alert: {us1Height}cm detected at {time.time()}")
+        print(f"Alert: {us1Height}cm detected at {time.ctime()}")
         tL1 = "y"
 
     if us1Detect == True and 1<(time.time()-sub1Start)<=2:
