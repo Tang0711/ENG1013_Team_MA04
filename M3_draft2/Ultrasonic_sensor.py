@@ -1,7 +1,7 @@
 # A simple initialised Ultrasonic Module that only returns distance from it
 # Created By : Looi_Yao_Ren(34471804)
 # Created Date: 28/03/2025 1529
-# version = '1.0'
+# version = '2.0'
 
 import time
 
@@ -16,11 +16,21 @@ def read_ultrasonic(boardInput,triggerPin,echoPin):
     - echoPin(int): digitalPin
 
     Return:
-    - distanceCM(int): distance(cm) between object and sensor
+    - avgDistance(int): averagedistance(cm) between object and sensor
 
     """
     time.sleep(0.01)
-    data = boardInput.sonar_read(triggerPin)
-    distanceCM=data[0]
-    return distanceCM
+    readings = []
+    for i in range(5):
+        data = boardInput.sonar_read(triggerPin)
+        distanceCM=data[0]
+        if distanceCM != 0:
+            readings.append(distanceCM)
+    if readings:
+        avgDistance = sum(readings) / len(readings)
+        avgDistance = int(avgDistance+0.5)
+    else:
+        avgDistance = 0 
+    
+    return avgDistance
 
