@@ -1,6 +1,6 @@
 from pymata4 import pymata4
 import time
-from Ultrasonic_sensor import read_ultrasonic
+from Ultrasonic_sensor2 import read_ultrasonic
 from traffic_light_switch import tL_with_yellow_shiftbit,tL_without_yellow_shiftbit,tL5_shiftbit
 from shift_register import set_tL_state
 
@@ -319,5 +319,6 @@ try:
 except KeyboardInterrupt:
     set_tL_state(board1013, shifterPin, "0000000000000000")
     board1013.digital_pin_write(8,0)
+    time.sleep(1)
     print("board shutdown")
     board1013.shutdown()
