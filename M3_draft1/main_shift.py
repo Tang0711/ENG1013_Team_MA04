@@ -1,6 +1,6 @@
 from pymata4 import pymata4
 import time
-from Ultrasonic_sensor import read_ultrasonic
+from Ultrasonic_sensor2 import read_ultrasonic
 from traffic_light_switch import tL_with_yellow_shiftbit,tL_without_yellow_shiftbit,tL5_shiftbit
 from shift_register import set_tL_state
 
@@ -140,25 +140,28 @@ def sub2_response():
         else:
             tL4 = "y"
 
-    elif 4 < timePassed <= 9:
+    elif 4 < timePassed <= 7:
         tL4 = "r"
-
-    elif 9 < timePassed <= 12:
         pL1 = "g"
     
-    elif 12 < timePassed <= 12.5:
+    elif 7 < timePassed <= 7.25:
         pL1 = "r"
-
-    elif 12.5 < timePassed <= 13:
+    elif 7.25 < timePassed <= 7.5:
         pL1 = "r0"
-    
-    elif 13 < timePassed <= 13.5:
+    elif 7.5 < timePassed <= 7.75:
         pL1 = "r"
-
-    elif 13.5 < timePassed <= 14:
+    elif 7.75 < timePassed <= 8:
+        pL1 = "r0"
+    elif 8 < timePassed <= 8.25:
+        pL1 = "r"
+    elif 8.25 < timePassed <= 8.5:
+        pL1 = "r0"
+    elif 8.5 < timePassed <= 8.75:
+        pL1 = "r"
+    elif 8.75 < timePassed <= 9:
         pL1 = "r0"
 
-    elif 14 < timePassed <= 30:
+    elif 9 < timePassed <= 30:
         pL1 = "r"
         if us2Detect:
             tL4 = "r"
@@ -315,5 +318,6 @@ try:
 
 except KeyboardInterrupt:
     set_tL_state(board1013, shifterPin, "0000000000000000")
+    board1013.digital_pin_write(8,0)
     print("board shutdown")
     board1013.shutdown()
