@@ -1,6 +1,6 @@
 from pymata4 import pymata4
 import time
-from Ultrasonic_sensor2 import read_ultrasonic
+from Ultrasonic_sensor import read_ultrasonic
 from traffic_light_switch import tL_with_yellow_shiftbit,tL_without_yellow_shiftbit,tL5_shiftbit
 from shift_register import set_tL_state
 
