@@ -21,6 +21,7 @@ def us1_state(boardInput,trig,echo,tunnelHeight, threshold):
         if tL1 == "g" and tL2 == "g":
             us1 = False
             overCarExit = False
+            print(f"Alert: {us1Height}cm detected at {time.ctime()}")
             sub1Start = time.time()
 
     else:
@@ -92,6 +93,7 @@ def pB1_state(boardInput,buttonPin):
     pB1Pressed = boardInput.digital_read(buttonPin)[0]
 
     if pB1Pressed:
+        print("Pedestrian push button PB1 is pressed.")
         sub2Start = time.time()
         pB1 = False
 
@@ -106,7 +108,6 @@ def sub1_response():
     timePassed = time.time()-sub1Start
 
     if timePassed<=1:
-        print(f"Alert: {us1Height}cm detected at {time.ctime()}")
         tL1 = "y"
 
 
@@ -131,7 +132,7 @@ def sub2_response():
     timePassed = time.time() - sub2Start
 
     if 0 < timePassed <= 2:
-        print("Pedestrian push button PB1 is pressed.")
+        pass
     
     elif 2 < timePassed <= 4:
         if us2Detect:
@@ -196,6 +197,7 @@ def integration():
         tL1 = "g"
         tL2 = "g"
         overCarExit = None
+    
     elif overCarExit == None and us2Detect == False:
         tL1 = "g"
         tL2 = "g"
@@ -205,9 +207,9 @@ def integration():
 us1Pin = {"trig":2,"echo":3}
 us2Pin = {"trig":4,"echo":5}
 us3Pin = {"trig":6,"echo":7}
-pB1Pin = 8
+pB1Pin = 13
 shifterPin = {"serial":11,"clock":9,"latch":10}
-
+wl1=8
 tL5FlashPin = 12
 
 #board setup
@@ -221,6 +223,7 @@ for pin in shifterPin.values():
     board1013.set_pin_mode_digital_output(pin)
 
 board1013.set_pin_mode_digital_output(tL5FlashPin)
+board1013.set_pin_mode_digital_output(wl1)
 
 board1013.set_pin_mode_sonar(us1Pin["trig"],us1Pin["echo"],timeout=200000)
 board1013.set_pin_mode_sonar(us2Pin["trig"],us2Pin["echo"],timeout=200000)
@@ -249,6 +252,11 @@ pB1Pressed = False
 prevShiftBit = None  # To store last shift bit state
 prevFlash = None # To store last flash state
 reloop = False
+prevWL1 = None
+WL1State = 0
+sub1Start = None
+sub3Start = None
+sub2Start = None
 
 
 try:
@@ -260,7 +268,13 @@ try:
         pL1Light = tL_without_yellow_shiftbit(pL1)
         tL5Light,tL5flash = tL5_shiftbit(tL5)
 
-        shiftBit = tL4Light + pL1Light + tL5Light + tL3Light + tL1Light + tL2Light
+        #shiftBit = tL2Light + pL1Light + tL5Light + tL3Light + tL2Light + tL4Light
+        shiftBit = tL1Light + tL2Light + tL3Light + tL4Light + tL5Light + pL1Light
+
+        if tL2 != "g":
+            WL1State = 1
+        else:
+            WL1State = 0
 
         if shiftBit != prevShiftBit: #update only if there are changes
             set_tL_state(board1013, shifterPin, shiftBit)
@@ -269,6 +283,10 @@ try:
         if tL5flash != prevFlash: #update only if there are changes
             board1013.digital_pin_write(tL5FlashPin, tL5flash)
             prevFlash = tL5flash
+
+        if prevWL1 != WL1State:
+            board1013.digital_pin_write(wl1,WL1State)
+            prevWL1 = WL1State
 
         if us1:
             us1_state(board1013,us1Pin["trig"],us1Pin["echo"],tunnelHeight,threshold)
@@ -292,9 +310,10 @@ try:
             sub3_response()
             
         integration()
+
         time.sleep(0.05) 
 
 except KeyboardInterrupt:
+    set_tL_state(board1013, shifterPin, "0000000000000000")
     print("board shutdown")
     board1013.shutdown()
-
