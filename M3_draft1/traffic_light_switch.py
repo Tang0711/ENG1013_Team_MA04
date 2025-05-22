@@ -1,7 +1,5 @@
 def tL_with_yellow_shiftbit(tLState):
-
-    #bit follows red,yellow,green
-    #bit follows green,yellow,green
+    #bit follows green,yellow,red
     shiftBit = "000"
 
     if tLState == "r":
@@ -18,8 +16,7 @@ def tL_with_yellow_shiftbit(tLState):
     return shiftBit
 
 def tL_without_yellow_shiftbit(tLState):
-
-    #bit follows red,green
+    #bit follows green,red
     shiftBit = "00"
 
     if tLState == "r":
@@ -36,8 +33,7 @@ def tL_without_yellow_shiftbit(tLState):
     return shiftBit
 
 def tL5_shiftbit(tLState):
-
-    #bit follows red,yellow,solidgreen,flashgreen
+    #bit follows solidgreen, yellow, red. Gives flashgreen
     shiftBit = "000"
     flash = 0
 
